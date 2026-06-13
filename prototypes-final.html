@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UberEats Solutions - Interactive Prototypes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-light: #7c8ff5;
+            --secondary: #764ba2;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-light: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .solution-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .solution-header {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+        }
+
+        .solution-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-category {
+            font-size: 13px;
+            opacity: 0.9;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-body {
+            padding: 32px;
+        }
+
+        .solution-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .solution-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .info-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .solution-cta {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .solution-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Modal - Fixed to be fully visible */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .prototype-wrapper {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 40px);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .prototype-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .prototype-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .prototype-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .phone-frame {
+            max-width: 380px;
+            width: 100%;
+            background: white;
+            border-radius: 40px;
+            border: 12px solid #000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .phone-notch {
+            background: #000;
+            height: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .phone-notch-left, .phone-notch-right { flex: 1; }
+        .phone-notch-right { text-align: right; }
+        .phone-notch-center { flex: 1; text-align: center; }
+
+        .phone-screen {
+            background: #f8fafc;
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Scrollbar styling */
+        .phone-screen::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .phone-screen::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .phone-screen::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        .phone-screen::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .screen-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 16px;
+            flex-shrink: 0;
+        }
+
+        .screen-header h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .screen-header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .screen-content {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .step-indicator {
+            background: white;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-left: 4px solid var(--primary);
+        }
+
+        .notification-alert {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+            animation: slideDown 0.4s ease;
+            cursor: pointer;
+        }
+
+        .notification-alert-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .notification-alert-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .notification-alert-text {
+            font-size: 12px;
+            opacity: 0.95;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+
+        .restaurant-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .restaurant-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .restaurant-image {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .restaurant-image.italian {
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+        }
+
+        .restaurant-image.burger {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+        }
+
+        .restaurant-info {
+            padding: 12px;
+        }
+
+        .restaurant-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .restaurant-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .restaurant-meta-left {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .rating {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .deal-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .deal-banner-title {
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .deal-banner-text {
+            font-size: 12px;
+            opacity: 0.95;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .menu-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            flex-shrink: 0;
+        }
+
+        .menu-item-content {
+            flex: 1;
+        }
+
+        .menu-item-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .menu-item-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .menu-item-price {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .tier-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tier-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .tier-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        }
+
+        .tier-card.locked {
+            opacity: 0.7;
+        }
+
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tier-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .tier-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .tier-badge.current {
+            background: var(--success);
+            color: white;
+        }
+
+        .tier-badge.unlocked {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tier-requirement {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .tier-progress {
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: var(--border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .tier-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .benefit-item {
+            font-size: 12px;
+            color: var(--text-primary);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .benefit-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            color: var(--text-primary);
+        }
+
+        .success-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            animation: scaleIn 0.4s ease;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .success-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .success-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .price-breakdown {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .breakdown-item.total {
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            margin-top: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .price-new {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 32px; }
+            .solutions-grid { grid-template-columns: 1fr; }
+            .prototype-wrapper { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>UberEats Solutions</h1>
+            <p>Interactive Prototypes - Click to Explore</p>
+        </div>
+
+        <div class="solutions-grid">
+            <!-- Solution 1 -->
+            <div class="solution-card" onclick="openPrototype(1)">
+                <div class="solution-header">
+                    <div>
+                        <div class="solution-number">1</div>
+                        <div class="solution-title" style="margin-top: 12px;">Daily Personalized Deals</div>
+                    </div>
+                    <div class="solution-category">MUST - Quick Win</div>
+                </div>
+                <div class="solution-body">
+                    <div class="solution-desc">Show personalized deals on favorite restaurants, reaching 85%+ users daily.</div>
+                    <div class="solution-info">
+                        <div class="info-item">
+                            <div class="info-dot"></div>
+                            <span><strong>Timeline:</strong> Month 1-3</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-dot"></div>
+                            <span><strong>Impact:</strong> +15% order frequency</span>
+                        </div>
+                    </div>
+                    <button class="solution-cta">Try Prototype</button>
+                </div>
+            </div>
+
+            <!-- Solution 2 -->
+            <div class="solution-card" onclick="openPrototype(2)">
+                <div class="solution-header">
+                    <div>
+                        <div class="solution-number">2</div>
+                        <div class="solution-title" style="margin-top: 12px;">UberOne 2.0 Tiers</div>
+                    </div>
+                    <div class="solution-category">MUST - Strategic</div>
+                </div>
+                <div class="solution-body">
+                    <div class="solution-desc">Transform flat membership into tiered progression with escalating benefits.</div>
+                    <div class="solution-info">
+                        <div class="info-item">
+                            <div class="info-dot"></div>
+                            <span><strong>Timeline:</strong> Month 4-8</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-dot"></div>
+                            <span><strong>Impact:</strong> 20%+ upgrade rate</span>
+                        </div>
+                    </div>
+                    <button class="solution-cta">Try Prototype</button>
+                </div>
+            </div>
+
+            <!-- Solution 3 -->
+            <div class="solution-card" onclick="openPrototype(3)">
+                <div class="solution-header">
+                    <div>
+                        <div class="solution-number">3</div>
+                        <div class="solution-title" style="margin-top: 12px;">Personalized Targeting</div>
+                    </div>
+                    <div class="solution-category">COULD - Enhancement</div>
+                </div>
+                <div class="solution-body">
+                    <div class="solution-desc">Send hyper-personalized notifications at the right time with urgency.</div>
+                    <div class="solution-info">
+                        <div class="info-item">
+                            <div class="info-dot"></div>
+                            <span><strong>Timeline:</strong> Month 3-5</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-dot"></div>
+                            <span><strong>Impact:</strong> >45% CTR</span>
+                        </div>
+                    </div>
+                    <button class="solution-cta">Try Prototype</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prototype Modal -->
+    <div id="prototypeModal" class="modal">
+        <div class="prototype-wrapper">
+            <div class="prototype-header">
+                <div class="prototype-title" id="prototypeTitle">Solution 1</div>
+                <button class="close-btn" onclick="closePrototype()">×</button>
+            </div>
+
+            <div class="prototype-container">
+                <div class="phone-frame">
+                    <div class="phone-notch">
+                        <div class="phone-notch-left">9:41</div>
+                        <div class="phone-notch-center"></div>
+                        <div class="phone-notch-right">📶 📡 🔋</div>
+                    </div>
+                    <div class="phone-screen" id="phoneScreen"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const solutions = {
+            1: {
+                title: 'Daily Personalized Deals',
+                steps: [
+                    {
+                        id: 'step1',
+                        type: 'notification',
+                        header: 'UberEats',
+                        subheader: 'New deals for you',
+                        stepLabel: 'STEP 1 - NOTIFICATION'
+                    },
+                    {
+                        id: 'step2',
+                        type: 'deals',
+                        header: 'Deals For You',
+                        subheader: 'Personalized to your taste',
+                        stepLabel: 'STEP 2 - BROWSE DEALS',
+                        deals: [
+                            { name: 'Thai Palace', desc: 'Your favorite', discount: '20% off', image: '🍜', rating: 4.8, time: '25-35 min' },
+                            { name: 'Italian Bistro', desc: 'Ordered 3x', discount: '$5 off', image: '🍝', rating: 4.6, time: '30-40 min' },
+                            { name: 'Burger Co', desc: 'Trending', discount: '15% off', image: '🍔', rating: 4.7, time: '20-30 min' }
+                        ]
+                    },
+                    {
+                        id: 'step3',
+                        type: 'restaurant',
+                        header: 'Thai Palace',
+                        subheader: '25-35 min • Thai • 4.8 (2.1K)',
+                        stepLabel: 'STEP 3 - SELECT RESTAURANT',
+                        image: '🍜',
+                        menuItems: [
+                            { name: 'Pad Thai', desc: 'Noodles, shrimp, tofu', price: 12.99, image: '🍜' },
+                            { name: 'Spring Rolls', desc: 'Crispy vegetables', price: 6.99, image: '🥒' },
+                            { name: 'Green Curry', desc: 'Chicken & vegetables', price: 14.99, image: '🍲' }
+                        ]
+                    },
+                    {
+                        id: 'step4',
+                        type: 'checkout',
+                        header: 'Your Order',
+                        subheader: 'Thai Palace',
+                        stepLabel: 'STEP 4 - CHECKOUT',
+                        order: { items: 'Pad Thai, Spring Rolls', subtotal: 19.98, discount: 4.00, delivery: 2.00 }
+                    },
+                    {
+                        id: 'step5',
+                        type: 'success',
+                        header: 'Order Confirmed',
+                        stepLabel: 'STEP 5 - SUCCESS',
+                        successText: 'You saved 4 USD with personalized deal'
+                    }
+                ]
+            },
+            2: {
+                title: 'UberOne 2.0 Tiered Loyalty',
+                steps: [
+                    {
+                        id: 'step1',
+                        type: 'membership',
+                        header: 'My Membership',
+                        subheader: 'UberOne',
+                        stepLabel: 'STEP 1 - YOUR TIER',
+                        currentTier: 'Bronze',
+                        currentOrders: 20,
+                        nextTierOrders: 30,
+                        tiers: [
+                            { name: 'Bronze', orders: 0, current: true, benefits: ['5% cashback', 'Free delivery on 15+ orders'] },
+                            { name: 'Silver', orders: 30, locked: false, benefits: ['10% cashback', 'Free delivery on 10+ orders', 'Weekly exclusive deals'] },
+                            { name: 'Gold', orders: 50, locked: true, benefits: ['15% cashback', 'Free delivery on all orders', 'Priority support'] }
+                        ]
+                    }
+                ]
+            },
+            3: {
+                title: 'Personalized Targeting Promos',
+                steps: [
+                    {
+                        id: 'step1',
+                        type: 'alert',
+                        header: 'UberEats',
+                        subheader: 'You have a new deal',
+                        stepLabel: 'STEP 1 - ALERT'
+                    },
+                    {
+                        id: 'step2',
+                        type: 'deal-detail',
+                        header: 'Thai Palace',
+                        subheader: 'Exclusive for you',
+                        stepLabel: 'STEP 2 - DEAL',
+                        image: '🍜',
+                        discount: '25%',
+                        items: [
+                            { name: 'Pad Thai', desc: 'Noodles, shrimp', price: 12.99, image: '🍜' },
+                            { name: 'Spring Rolls', desc: 'Crispy veg', price: 6.99, image: '🥒' }
+                        ]
+                    },
+                    {
+                        id: 'step3',
+                        type: 'checkout',
+                        header: 'Quick Order',
+                        subheader: 'Thai Palace',
+                        stepLabel: 'STEP 3 - CHECKOUT',
+                        order: { items: 'Pad Thai, Spring Rolls', subtotal: 19.98, discount: 5.00, delivery: 2.00 }
+                    },
+                    {
+                        id: 'step4',
+                        type: 'success',
+                        header: 'Order Placed!',
+                        stepLabel: 'STEP 4 - SUCCESS',
+                        successText: 'You saved 5 USD on this exclusive deal'
+                    }
+                ]
+            }
+        };
+
+        let currentSolutionId = null;
+        let currentStepIndex = 0;
+
+        function openPrototype(solutionId) {
+            currentSolutionId = solutionId;
+            currentStepIndex = 0;
+            document.getElementById('prototypeModal').classList.add('active');
+            document.getElementById('prototypeTitle').textContent = solutions[solutionId].title;
+            renderStep(solutionId, 0);
+        }
+
+        function closePrototype() {
+            document.getElementById('prototypeModal').classList.remove('active');
+        }
+
+        function renderStep(solutionId, stepIndex) {
+            const solution = solutions[solutionId];
+            const step = solution.steps[stepIndex];
+            let html = '';
+
+            html += `<div class="screen-header">
+                <h3>${step.header}</h3>
+                <p>${step.subheader}</p>
+            </div>`;
+
+            html += `<div class="screen-content">
+                <div class="step-indicator">${step.stepLabel}</div>`;
+
+            if (stepIndex > 0) {
+                html += `<button class="btn-back" onclick="renderStep(${solutionId}, ${stepIndex - 1})">← Back</button>`;
+            }
+
+            // Notification
+            if (step.type === 'notification') {
+                html += `<div class="notification-alert" onclick="renderStep(${solutionId}, 1)">
+                    <div class="notification-alert-icon">🔔</div>
+                    <div class="notification-alert-title">New Deals Just for You</div>
+                    <div class="notification-alert-text">Personalized based on your favorites</div>
+                    <div class="notification-time">Tap to see deals</div>
+                </div>`;
+            }
+
+            // Alert
+            if (step.type === 'alert') {
+                html += `<div class="notification-alert" onclick="renderStep(${solutionId}, 1)">
+                    <div class="notification-alert-icon">🚀</div>
+                    <div class="notification-alert-title">Thai Palace 25% off</div>
+                    <div class="notification-alert-text">Your usual = 15 USD</div>
+                    <div class="notification-time">Only 2 hours</div>
+                </div>
+                <div style="text-align: center; margin-top: 20px; color: var(--text-secondary); font-size: 12px;">
+                    <p>You're at your desk at 2:15 PM</p>
+                    <p>This deal is available only for 2 hours</p>
+                </div>`;
+            }
+
+            // Browse Deals
+            if (step.type === 'deals') {
+                step.deals.forEach((deal) => {
+                    html += `<div class="restaurant-card" onclick="renderStep(${solutionId}, 2)">
+                        <div class="restaurant-image">${deal.image}</div>
+                        <div class="restaurant-info">
+                            <div class="restaurant-name">${deal.name}</div>
+                            <div class="restaurant-meta">
+                                <div class="restaurant-meta-left">
+                                    <span class="rating">⭐ ${deal.rating}</span>
+                                    <span>${deal.time}</span>
+                                </div>
+                                <div style="background: var(--accent); color: white; padding: 2px 8px; border-radius: 4px; font-weight: 600;">${deal.discount}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            }
+
+            // Restaurant
+            if (step.type === 'restaurant') {
+                html += `<div class="deal-banner">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🍜</div>
+                    <div style="font-size: 13px; color: rgba(255,255,255,0.9);">20% OFF your order</div>
+                </div>`;
+                html += `<div style="margin-bottom: 12px; font-weight: 600; font-size: 13px;">Featured Items</div>`;
+                step.menuItems.forEach(item => {
+                    html += `<div class="menu-item" onclick="renderStep(${solutionId}, 3)">
+                        <div class="menu-item-image">${item.image}</div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-name">${item.name}</div>
+                            <div class="menu-item-desc">${item.desc}</div>
+                            <div class="menu-item-price">USD ${item.price}</div>
+                        </div>
+                    </div>`;
+                });
+            }
+
+            // Deal Detail
+            if (step.type === 'deal-detail') {
+                html += `<div class="deal-banner">
+                    <div style="font-size: 20px; margin-bottom: 8px;">🍜</div>
+                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">${step.discount} OFF</div>
+                    <div style="font-size: 12px;">Your usual order • Limited time</div>
+                </div>`;
+                html += `<div style="margin-bottom: 12px; font-weight: 600; font-size: 13px;">Your Favorites</div>`;
+                step.items.forEach(item => {
+                    html += `<div class="menu-item" onclick="renderStep(${solutionId}, 2)">
+                        <div class="menu-item-image">${item.image}</div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-name">${item.name}</div>
+                            <div class="menu-item-desc">${item.desc}</div>
+                            <div class="menu-item-price">USD ${item.price}</div>
+                        </div>
+                    </div>`;
+                });
+            }
+
+            // Checkout
+            if (step.type === 'checkout') {
+                html += `<div style="background: var(--bg-light); border-radius: 14px; padding: 14px; margin-bottom: 14px;">
+                    <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px;">Order Summary</div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">${step.order.items}</div>
+                    <div class="price-breakdown">
+                        <div class="breakdown-item">
+                            <span>Subtotal</span>
+                            <span>USD ${step.order.subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="breakdown-item" style="color: var(--success);">
+                            <span>Discount</span>
+                            <span>-USD ${step.order.discount.toFixed(2)}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Delivery</span>
+                            <span>USD ${step.order.delivery.toFixed(2)}</span>
+                        </div>
+                        <div class="breakdown-item total">
+                            <span>Total</span>
+                            <span>USD ${(step.order.subtotal - step.order.discount + step.order.delivery).toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>`;
+                html += `<button class="button btn-primary" onclick="renderStep(${solutionId}, ${stepIndex + 1})">Confirm Order</button>`;
+            }
+
+            // Membership
+            if (step.type === 'membership') {
+                html += `<div style="margin-bottom: 16px;">
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; font-weight: 500;">TAP CARDS TO EXPLORE</div>`;
+                step.tiers.forEach((tier, idx) => {
+                    const isClickable = !tier.current && !tier.locked;
+                    html += `<div class="tier-card ${tier.current ? 'active' : ''} ${tier.locked ? 'locked' : ''}" onclick="${isClickable ? `alert('${tier.name} Tier:\\n\\nYou need ${tier.orders} total orders.\\n\\nBenefits:\\n${tier.benefits.map(b => '✓ ' + b).join('\\n')}\\n\\nKeep ordering to unlock!')` : ''}" style="${isClickable ? 'cursor: pointer;' : ''}">
+                        <div class="tier-header">
+                            <div class="tier-name">${tier.name}</div>
+                            ${tier.current ? '<div class="tier-badge current">Current</div>' : tier.locked ? '<div class="tier-badge" style="background: #d1d5db; color: var(--text-primary);">Coming</div>' : '<div class="tier-badge unlocked">Click to see</div>'}
+                        </div>
+                        ${tier.current ? `<div class="tier-requirement">${tier.orders - step.currentOrders} orders to Silver</div>` : ''}
+                        ${tier.current && idx < step.tiers.length - 1 ? `<div class="tier-progress">
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">${step.currentOrders} of ${step.tiers[idx + 1].orders} orders</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${(step.currentOrders / step.tiers[idx + 1].orders) * 100}%"></div>
+                            </div>
+                        </div>` : ''}
+                        <div class="tier-benefits">
+                            ${tier.benefits.map(b => `<div class="benefit-item">${b}</div>`).join('')}
+                        </div>
+                    </div>`;
+                });
+                html += `</div>`;
+            }
+
+            // Success
+            if (step.type === 'success') {
+                html += `<div class="success-container">
+                    <div class="success-icon">✓</div>
+                    <div class="success-title">${step.header}</div>
+                    <div class="success-text">${step.successText}</div>
+                    <div style="background: var(--bg-light); border-radius: 10px; padding: 12px; margin-bottom: 16px; text-align: left; font-size: 12px;">
+                        <div style="margin-bottom: 8px;"><strong>Order Details</strong></div>
+                        <div style="color: var(--text-secondary); margin-bottom: 6px;">Restaurant: Thai Palace</div>
+                        <div style="color: var(--text-secondary); margin-bottom: 6px;">Est. Delivery: 25-35 min</div>
+                        <div style="color: var(--text-secondary);">Track your order in realtime</div>
+                    </div>
+                    <button class="button btn-secondary" onclick="renderStep(${solutionId}, 0)">Done</button>
+                </div>`;
+            }
+
+            html += '</div>';
+            document.getElementById('phoneScreen').innerHTML = html;
+        }
+
+        document.getElementById('prototypeModal').addEventListener('click', function(e) {
+            if (e.target === this) closePrototype();
+        });
+    </script>
+</body>
+</html>
